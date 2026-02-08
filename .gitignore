@@ -121,3 +121,6 @@ build
 *.prof
 .nfs*
 deprecated/
+
+input/
+body_models/

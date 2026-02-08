@@ -66,7 +66,6 @@ class BodyModel(nn.Module):
         if num_betas < 1:
             num_betas = num_total_betas
 
-        print (smpl_dict['shapedirs'].shape)
         shapedirs = smpl_dict['shapedirs'][:, :, :num_betas]
         self.register_buffer('shapedirs', torch.tensor(shapedirs, dtype=dtype))
 
@@ -167,6 +166,7 @@ class BodyModel(nn.Module):
                                                                                           lbs_weights=self.weights,
                                                                                           dtype=self.dtype)
 
+        trans = trans.cuda()
         Jtr = joints + trans.unsqueeze(dim=1)
         verts = verts + trans.unsqueeze(dim=1)
         v_posed = v_posed + trans.unsqueeze(dim=1)

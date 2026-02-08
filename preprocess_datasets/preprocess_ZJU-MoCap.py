@@ -27,7 +27,7 @@ if __name__ == '__main__':
     seq_name = args.seqname
     data_dir = os.path.join(args.data_dir, seq_name)
     out_dir = os.path.join(args.out_dir, seq_name)
-
+    print(os.path.abspath(os.path.join(data_dir, 'annots.npy')))
     annots = np.load(os.path.join(data_dir, 'annots.npy'), allow_pickle=True).item()
     cameras = annots['cams']
 

@@ -76,6 +76,11 @@ def lbs(betas, pose, v_template, clothed_v_template, shapedirs, posedirs, J_regr
 
     batch_size = betas.shape[0]
     device = betas.device
+    shapedirs = shapedirs.cuda()
+    v_template = v_template.cuda()
+    J_regressor = J_regressor.cuda()
+    posedirs = posedirs.cuda()
+    pose = pose.cuda()
 
     # Add shape contribution
     v_shaped = v_template + blend_shapes(betas, shapedirs)
@@ -105,7 +110,7 @@ def lbs(betas, pose, v_template, clothed_v_template, shapedirs, posedirs, J_regr
 
     # 5. Do skinning:
     # W is N x V x (J + 1)
-    W = lbs_weights.unsqueeze(dim=0).repeat([batch_size, 1, 1])
+    W = lbs_weights.unsqueeze(dim=0).repeat([batch_size, 1, 1]).cuda()
     num_joints = J_regressor.shape[0]
     # (N x V x (J + 1)) x (N x (J + 1) x 16)
     T = torch.matmul(W, A.view(batch_size, num_joints, 16)).view(batch_size, -1, 4, 4)
